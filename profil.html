@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profil Saya - ASTRASHELL</title>
+    <link rel="icon" href="icon/astra icon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #7C3AED;
+            --primary-color-light: #f3e8ff;
+            --border-color: #e2e8f0;
+            --background-color: #f8fafc;
+            --text-color-primary: #1e293b;
+            --text-color-secondary: #64748b;
+            --success-color: #22c55e;
+            --processing-color: #3b82f6;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            color: var(--text-color-primary);
+        }
+
+        .profile-container {
+            display: flex;
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 1.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .profile-sidebar {
+            flex: 0 0 280px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 1.5rem;
+            height: fit-content;
+        }
+        
+        .user-info-summary {
+            text-align: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1rem;
+        }
+        .user-info-summary img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color-light);
+            margin-bottom: 0.75rem;
+        }
+        .user-info-summary h3 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1.2rem;
+        }
+        .user-info-summary p {
+            margin: 0;
+            color: var(--text-color-secondary);
+            font-size: 0.9rem;
+        }
+
+        .profile-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .profile-nav h4 {
+            color: var(--text-color-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin: 1.5rem 0 0.5rem 0;
+            font-weight: 700;
+        }
+        .profile-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.8rem 1rem;
+            text-decoration: none;
+            color: var(--text-color-primary);
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .profile-nav a:hover {
+            background-color: var(--primary-color-light);
+            color: var(--primary-color);
+        }
+        .profile-nav a.active {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+        .profile-nav a i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .profile-content {
+            flex: 1;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .content-card {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        .content-card h2 {
+            margin-top: 0;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .form-actions {
+            text-align: right;
+        }
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .order-card {
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafc;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+        }
+        .order-header strong { color: var(--text-color-primary); }
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        .status-badge.selesai { background: #dcfce7; color: #16a34a; }
+        .status-badge.dikirim { background: #dbeafe; color: #2563eb; }
+        
+        .order-body {
+            display: flex;
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+        .order-body img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        .order-item-info h5 { margin: 0 0 0.25rem 0; }
+        .order-item-info p { margin: 0; font-size: 0.9rem; color: var(--text-color-secondary); }
+        
+        .order-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+        .order-footer strong { font-size: 1.1rem; }
+
+        @media (max-width: 992px) {
+            .profile-container { flex-direction: column; }
+            .profile-sidebar { flex: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <aside class="profile-sidebar">
+            <div class="user-info-summary">
+                <img src="asset/image/Ezequiel on TikTok.jpeg" alt="Foto Profil">
+                <h3>Bagas Kedinginan</h3>
+                <p>bagascoolbet123.com</p>
+            </div>
+            <nav class="profile-nav">
+                <ul>
+                    <li><a href="#informasi-akun" class="menu-link active"><i class="fas fa-user-edit"></i> Informasi Akun</a></li>
+
+                    <h4>Aktivitas Saya</h4>
+                    <li><a href="keranjang.html" class="menu-link"><i class="fas fa-shopping-cart"></i> Keranjang Belanja</a></li>
+                    <li><a href="#riwayat-pesanan" class="menu-link"><i class="fas fa-receipt"></i> Riwayat Pesanan</a></li>
+                    <li><a href="#ulasan-produk" class="menu-link"><i class="fas fa-star"></i> Ulasan Produk</a></li>
+                    
+                    <h4>Pengaturan</h4>
+                    <li><a href="#alamat" class="menu-link"><i class="fas fa-map-marked-alt"></i> Alamat Pengiriman</a></li>
+                    <li><a href="#pembayaran" class="menu-link"><i class="fas fa-credit-card"></i> Metode Pembayaran</a></li>
+                    <li><a href="#ubah-password" class="menu-link"><i class="fas fa-key"></i> Ubah Kata Sandi</a></li>
+                    
+                    <h4>Bantuan</h4>
+                    <li><a href="#pusat-bantuan" class="menu-link"><i class="fas fa-question-circle"></i> Pusat Bantuan</a></li>
+                    <li><a href="#logout" class="menu-link"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="profile-content">
+            <div id="informasi-akun" class="content-section active">
+                <div class="content-card">
+                    <h2>Informasi Akun</h2>
+                    <div class="form-group">
+                        <label for="nama">Nama Lengkap</label>
+                        <input type="text" id="nama" value="Bagas " readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Alamat Email</label>
+                        <input type="email" id="email" value="bagascoolbet123.com" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="telepon">Nomor Telepon</label>
+                        <input type="tel" id="telepon" value="083182306654" readonly>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn-primary">Simpan Perubahan</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="riwayat-pesanan" class="content-section">
+                <div class="content-card">
+                    <h2>Riwayat Pesanan</h2>
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div><span>Tanggal: <strong>15 Juli 2025</strong></span></div>
+                            <span class="status-badge selesai">Selesai</span>
+                        </div>
+                        <div class="order-body">
+                            <img src="https://placehold.co/80x80/ef4444/white?text=Mouse" alt="Produk">
+                            <div class="order-item-info">
+                                <h5>Logitech G Pro X</h5>
+                                <p>1 Barang x Rp 2.100.000</p>
+                                <p>+ 1 produk lainnya</p>
+                            </div>
+                        </div>
+                        <div class="order-footer">
+                            <span>Total Belanja: <strong>Rp 2.567.000</strong></span>
+                            <a href="detail-pesanan.html" class="btn-primary" style="text-decoration:none; padding: 0.5rem 1rem;">Lihat Detail</a>
+                        </div>
+                    </div>
+                    <div class="order-card">
+                        <div class="order-header">
+                             <div><span>Tanggal: <strong>18 Juli 2025</strong></span></div>
+                            <span class="status-badge dikirim">Dikirim</span>
+                        </div>
+                         <div class="order-body">
+                            <img src="https://placehold.co/80x80/3b82f6/white?text=KB" alt="Produk">
+                            <div class="order-item-info">
+                                <h5>Keychron K2</h5>
+                                <p>1 Barang x Rp 1.500.000</p>
+                            </div>
+                        </div>
+                         <div class="order-footer">
+                             <span>Total Belanja: <strong>Rp 1.517.000</strong></span>
+                            <a href="#" class="btn-primary" style="text-decoration:none; padding: 0.5rem 1rem;">Lacak</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="ulasan-produk" class="content-section"><div class="content-card"><h2>Ulasan Produk Anda</h2><p>Konten untuk ulasan produk akan ditampilkan di sini.</p></div></div>
+            <div id="alamat" class="content-section"><div class="content-card"><h2>Alamat Pengiriman</h2><p>Konten untuk manajemen alamat akan ditampilkan di sini.</p></div></div>
+            <div id="pembayaran" class="content-section"><div class="content-card"><h2>Metode Pembayaran</h2><p>Konten untuk metode pembayaran akan ditampilkan di sini.</p></div></div>
+            <div id="ubah-password" class="content-section"><div class="content-card"><h2>Ubah Kata Sandi</h2><p>Formulir untuk mengubah kata sandi akan ditampilkan di sini.</p></div></div>
+            <div id="pusat-bantuan" class="content-section"><div class="content-card"><h2>Pusat Bantuan</h2><p>Informasi bantuan dan FAQ akan ditampilkan di sini.</p></div></div>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // [FIX] Cek status login di awal
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
+                // Jika tidak login, paksa kembali ke halaman login
+                alert("Anda harus login untuk mengakses halaman ini.");
+                window.location.href = 'login.html';
+                return; 
+            }
+
+            const menuLinks = document.querySelectorAll('.profile-nav .menu-link');
+            const contentSections = document.querySelectorAll('.profile-content .content-section');
+
+            menuLinks.forEach(link => {
+                if (link.getAttribute('href').startsWith('#')) {
+                    link.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        
+                        if (this.getAttribute('href') === '#logout') {
+                            // [FIX] Logika Logout yang benar
+                            if (confirm('Anda yakin ingin keluar?')) {
+                                // Hapus status login dari browser
+                                localStorage.removeItem('isLoggedIn');
+                                
+                                alert('Anda telah keluar.');
+                                // Arahkan kembali ke halaman login
+                                window.location.href = 'login.html'; 
+                            }
+                            return;
+                        }
+                        
+                        menuLinks.forEach(l => l.classList.remove('active'));
+                        contentSections.forEach(s => s.classList.remove('active'));
+                        this.classList.add('active');
+                        document.querySelector(this.getAttribute('href')).classList.add('active');
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

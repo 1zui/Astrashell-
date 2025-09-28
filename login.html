@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login atau Daftar - ASTRASHELL</title>
+    <link rel="icon" href="icon/astra icon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #6c63ff;
+            --background-color: #f8f9fa;
+            --card-background: #ffffff;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --border-color: #ddd;
+            --success-bg: #28a745;
+            --danger-bg: #dc3545;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .login-container {
+            display: flex;
+            width: 100%;
+            max-width: 900px;
+            background: var(--card-background);
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .left-pane, .right-pane {
+            flex: 1;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .left-pane {
+            background-color: var(--card-background);
+            text-align: center;
+        }
+
+        .left-pane h1 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .left-pane p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+        
+        .back-link-main {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            border: 2px solid var(--primary-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            transition: all 0.2s ease;
+        }
+        .back-link-main:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .right-pane {
+            background: #fdfdff;
+        }
+        
+        .tab-switcher {
+            display: flex;
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+        .tab-switcher label {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+        .tab-switcher input[type="radio"] {
+            display: none;
+        }
+        .tab-switcher input[type="radio"]:checked + label {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 2px 10px rgba(108, 99, 255, 0.4);
+        }
+
+        .form-content { display: none; }
+        .form-content.active { display: block; }
+        
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+        .password-wrapper {
+            position: relative;
+        }
+        .password-wrapper .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 1rem;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        .form-options a {
+            text-decoration: none;
+            color: var(--primary-color);
+        }
+        
+        .btn-submit {
+            width: 100%;
+            padding: 0.85rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        
+        .invalid-feedback {
+            color: var(--danger-bg);
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        .form-group.is-invalid input {
+            border-color: var(--danger-bg);
+        }
+        .form-group.is-invalid .invalid-feedback {
+            display: block;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            z-index: 1090;
+            transform: translateX(calc(100% + 1.5rem));
+            transition: transform 0.4s ease-in-out;
+        }
+        .notification.show {
+            transform: translateX(0);
+        }
+        .notification.bg-success { background-color: var(--success-bg); }
+        .notification.bg-danger { background-color: var(--danger-bg); }
+        
+        @media (max-width: 991.98px) {
+            .left-pane { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="notification" class="notification">
+    <i id="notificationIcon" class="bi"></i>
+    <span id="notificationMsg"></span>
+</div>
+
+<div class="login-container">
+    <div class="left-pane">
+        <h1>Satu Akun, Semua Akses</h1>
+        <p>Masuk atau Daftar akun <strong>AstraShell</strong> untuk semua kebutuhan Anda!</p>
+        <a href="index.html" class="back-link-main">
+            <i class="bi bi-arrow-left-circle"></i> Kembali ke Menu
+        </a>
+    </div>
+
+    <div class="right-pane">
+        <div class="tab-switcher">
+            <input type="radio" id="tab-login" name="auth-tab" checked>
+            <label for="tab-login">Masuk</label>
+            <input type="radio" id="tab-register" name="auth-tab">
+            <label for="tab-register">Daftar</label>
+        </div>
+
+        <div id="login-form-content" class="form-content active">
+            <form id="loginForm">
+                <div class="form-group" id="login-email-group">
+                    <label for="loginEmailInput">Email</label>
+                    <input type="email" id="loginEmailInput" placeholder="email@anda.com">
+                    <div class="invalid-feedback">Email belum diisi.</div>
+                </div>
+                <div class="form-group" id="login-password-group">
+                    <label for="loginPasswordInput">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="loginPasswordInput" placeholder="Masukkan password">
+                        <span class="toggle-password"><i class="bi bi-eye-slash"></i></span>
+                    </div>
+                    <div class="invalid-feedback">Password belum diisi.</div>
+                </div>
+                <div class="form-options">
+                    <a href="#">Lupa kata sandi?</a>
+                </div>
+                <button type="submit" class="btn-submit">Log Masuk</button>
+            </form>
+        </div>
+
+        <div id="register-form-content" class="form-content">
+            <form id="registerForm">
+                 <div class="form-group" id="reg-name-group">
+                    <label for="regNameInput">Nama Lengkap</label>
+                    <input type="text" id="regNameInput" placeholder="Masukkan nama lengkap">
+                     <div class="invalid-feedback">Nama belum diisi.</div>
+                </div>
+                <div class="form-group" id="reg-email-group">
+                    <label for="regEmailInput">Email</label>
+                    <input type="email" id="regEmailInput" placeholder="email@anda.com">
+                    <div class="invalid-feedback">Email belum diisi.</div>
+                </div>
+                <div class="form-group" id="reg-password-group">
+                    <label for="regPasswordInput">Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="regPasswordInput" placeholder="Buat password baru">
+                        <span class="toggle-password"><i class="bi bi-eye-slash"></i></span>
+                    </div>
+                    <div class="invalid-feedback">Password belum diisi.</div>
+                </div>
+                <button type="submit" class="btn-submit">Daftar Sekarang</button>
+            </form>
+        </div>
+        
+    </div>
+</div>
+
+<script>
+    // --- Tab Switcher Logic ---
+    const tabs = document.querySelectorAll('.tab-switcher input[type="radio"]');
+    const loginForm = document.getElementById('login-form-content');
+    const registerForm = document.getElementById('register-form-content');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('change', () => {
+            if (document.getElementById('tab-login').checked) {
+                loginForm.classList.add('active');
+                registerForm.classList.remove('active');
+            } else {
+                loginForm.classList.remove('active');
+                registerForm.classList.add('active');
+            }
+        });
+    });
+
+    // --- Toggle Password Visibility ---
+    document.querySelectorAll('.toggle-password').forEach(toggle => {
+        toggle.addEventListener('click', (e) => {
+            const wrapper = e.currentTarget.closest('.password-wrapper');
+            const input = wrapper.querySelector('input');
+            const icon = wrapper.querySelector('i');
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            icon.classList.toggle('bi-eye');
+            icon.classList.toggle('bi-eye-slash');
+        });
+    });
+    
+    // --- Notifikasi Kustom ---
+    function showNotification(message, type = 'success') {
+        const notification = document.getElementById('notification');
+        notification.querySelector('#notificationMsg').innerText = message;
+        notification.querySelector('#notificationIcon').className = `bi ${type === 'success' ? 'bi-check-circle-fill' : 'bi-x-octagon-fill'}`;
+        notification.className = `notification bg-${type === 'success' ? 'success' : 'danger'}`;
+        notification.classList.add('show');
+        setTimeout(() => notification.classList.remove('show'), 3000);
+    }
+
+    // --- Form Login Handler ---
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const emailInput = document.getElementById('loginEmailInput');
+        const passwordInput = document.getElementById('loginPasswordInput');
+        
+        emailInput.closest('.form-group').classList.remove('is-invalid');
+        passwordInput.closest('.form-group').classList.remove('is-invalid');
+
+        let valid = true;
+        if (!emailInput.value.trim()) {
+            emailInput.closest('.form-group').classList.add('is-invalid');
+            valid = false;
+        }
+        if (!passwordInput.value.trim()) {
+            passwordInput.closest('.form-group').classList.add('is-invalid');
+            valid = false;
+        }
+
+        if (!valid) return;
+
+        // Simulasi proses login
+        if (emailInput.value === 'admin@astrashell.com' && passwordInput.value === '12345') {
+            
+            // [FIX] Menyimpan status login di browser
+            localStorage.setItem('isLoggedIn', 'true');
+
+            showNotification('Login berhasil! Mengarahkan ke beranda...', 'success');
+            
+            // [FIX] Mengarahkan kembali ke halaman utama
+            setTimeout(() => window.location.href = 'index.html', 1500);
+        } else {
+            showNotification('Email atau password salah.', 'danger');
+        }
+    });
+
+    // --- Form Register Handler ---
+    document.getElementById('registerForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const nameInput = document.getElementById('regNameInput');
+        const emailInput = document.getElementById('regEmailInput');
+        const passwordInput = document.getElementById('regPasswordInput');
+
+        nameInput.closest('.form-group').classList.remove('is-invalid');
+        emailInput.closest('.form-group').classList.remove('is-invalid');
+        passwordInput.closest('.form-group').classList.remove('is-invalid');
+
+        let valid = true;
+        if (!nameInput.value.trim()) {
+            nameInput.closest('.form-group').classList.add('is-invalid');
+            valid = false;
+        }
+        if (!emailInput.value.trim()) {
+            emailInput.closest('.form-group').classList.add('is-invalid');
+            valid = false;
+        }
+        if (!passwordInput.value.trim()) {
+            passwordInput.closest('.form-group').classList.add('is-invalid');
+            valid = false;
+        }
+        
+        if (!valid) return;
+        
+        showNotification('Pendaftaran berhasil! Silakan login.', 'success');
+        
+        setTimeout(() => {
+            document.getElementById('tab-login').checked = true;
+            loginForm.classList.add('active');
+            registerForm.classList.remove('active');
+            document.getElementById('loginEmailInput').value = emailInput.value;
+        }, 1500);
+    });
+</script>
+</body>
+</html>

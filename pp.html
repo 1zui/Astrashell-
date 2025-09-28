@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katalog Produk Lengkap</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        
+        .astra-katalog-produk {
+            --primary-color: #7C3AED; 
+            --primary-color-dark: #622ab7; 
+            --border-color: #e2e8f0; 
+            --background-color: #f1f5f9; 
+            --text-color: #0f172a; 
+            --secondary-text-color: #64748b;
+            --border-radius-lg: 12px;
+            font-family: 'Poppins', sans-serif; 
+            background-color: var(--background-color);
+        }
+
+        .astra-katalog-produk .navbar { 
+            background-color: white; padding: 0 2rem; display: flex; 
+            justify-content: space-between; align-items: center; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); height: 80px;
+            position: sticky; top: 0; z-index: 1000; 
+        }
+        .astra-katalog-produk .nav-brand { 
+            font-weight: 700; font-size: 1.5rem; color: var(--primary-color); text-decoration: none; 
+        }
+        .astra-katalog-produk .nav-cart-link { 
+            position: relative; font-size: 1.3rem; color: var(--text-color); 
+        }
+        .astra-katalog-produk .cart-count { 
+            background-color: var(--primary-color); color: white; border-radius: 50%; 
+            padding: 1px 6px; font-size: 0.7rem; position: absolute; 
+            top: -5px; right: -8px; border: 2px solid white; 
+        }
+
+        .astra-katalog-produk .page-layout { 
+            display: flex; gap: 2rem; padding: 1.5rem; 
+            /* PERUBAHAN: Lebar maksimal diperbesar */
+            max-width: 1600px; 
+            margin: 0 auto; align-items: flex-start; 
+        }
+        .astra-katalog-produk .sidebar { 
+            flex: 0 0 220px; background-color: white; border-radius: var(--border-radius-lg); 
+            padding: 1rem; box-shadow: 0 4px 20px rgba(0,0,0,0.05); 
+            position: sticky; top: 100px; 
+        }
+        .astra-katalog-produk .sidebar-title { 
+            font-size: 1.2rem; font-weight: 600; padding-bottom: 0.75rem; 
+            margin: 0 0 0.75rem 0; border-bottom: 1px solid var(--border-color); 
+        }
+        .astra-katalog-produk .category-list { list-style: none; padding: 0; margin: 0; }
+        .astra-katalog-produk .category-item a { 
+            display: block; padding: 0.75rem 1rem; text-decoration: none; 
+            color: var(--secondary-text-color); font-weight: 500; 
+            border-radius: 8px; transition: color 0.2s; 
+        }
+        .astra-katalog-produk .category-item a:hover { color: var(--primary-color); }
+        .astra-katalog-produk .category-item a.active { 
+            color: var(--primary-color); font-weight: 700;
+        }
+        
+        .astra-katalog-produk .main-content { flex: 1; }
+        .astra-katalog-produk .product-header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            margin-bottom: 1.5rem; padding-bottom: 1rem; 
+            border-bottom: 1px solid var(--border-color); 
+        }
+        .astra-katalog-produk .product-header h2 { margin: 0; font-size: 1.8rem; }
+        .astra-katalog-produk .controls-container { display: flex; align-items: center; gap: 1.5rem; }
+        .astra-katalog-produk .sorting-controls { display: flex; align-items: center; gap: 0.5rem; }
+        .astra-katalog-produk .controls-container select { 
+            padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color); 
+            font-family: 'Poppins', sans-serif; font-size: 0.9rem; 
+        }
+        
+        .astra-katalog-produk .product-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: 1fr;
+        }
+        @media (min-width: 600px) {
+            .astra-katalog-produk .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (min-width: 900px) {
+            .astra-katalog-produk .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (min-width: 1200px) {
+            .astra-katalog-produk .product-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        /* PERUBAHAN: Media query baru untuk 5 kolom */
+        @media (min-width: 1600px) {
+            .astra-katalog-produk .product-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        .astra-katalog-produk .product-card { 
+            display: flex; flex-direction: column; background-color: white; 
+            border-radius: var(--border-radius-lg); overflow: hidden; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05); 
+        }
+        .astra-katalog-produk .product-card img { 
+            width: 100%; display: block; aspect-ratio: 1 / 1; 
+            object-fit: contain; padding: 10px; box-sizing: border-box; 
+        }
+        .astra-katalog-produk .product-content { 
+            padding: 1rem; border-top: 1px solid var(--border-color); 
+            flex-grow: 1; display: flex; flex-direction: column; 
+        }
+        .astra-katalog-produk .product-title { 
+            font-size: 1.1rem; font-weight: 600; color: var(--text-color); margin-bottom: 0.5rem; 
+        }
+        .astra-katalog-produk .product-description { 
+            font-size: 0.9rem; color: var(--secondary-text-color); margin-bottom: 1rem; flex-grow: 1; 
+        }
+        .astra-katalog-produk .product-price { margin-bottom: 1rem; }
+        .astra-katalog-produk .final-price { 
+            color: var(--primary-color); font-size: 1.2rem; font-weight: 700; 
+        }
+        .astra-katalog-produk .card-actions { 
+            display: grid; grid-template-columns: 50px 1fr; gap: 0.5rem; 
+        }
+        .astra-katalog-produk .cart-btn, .astra-katalog-produk .buy-btn { 
+            padding: 0.75rem; border: none; border-radius: 6px; 
+            font-weight: 600; cursor: pointer; transition: all 0.2s ease; 
+        }
+        .astra-katalog-produk .cart-btn { 
+            background-color: #e9ecef; color: var(--text-color); font-size: 1.1rem; 
+        }
+        .astra-katalog-produk .buy-btn { 
+            background-color: var(--primary-color); color: white; 
+        }
+
+        .astra-katalog-produk .notification { 
+            position: fixed; top: 90px; right: 20px; background-color: #28a745; 
+            color: white; padding: 1rem 1.5rem; border-radius: 8px; z-index: 2000; 
+            display: flex; align-items: center; gap: 0.75rem; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+            transform: translateX(calc(100% + 20px)); transition: transform 0.4s ease-in-out; 
+        }
+        .astra-katalog-produk .notification.show { transform: translateX(0); }
+        
+        @media (max-width: 768px) { 
+            .astra-katalog-produk .page-layout { flex-direction: column; } 
+            .astra-katalog-produk .sidebar { position: static; width: 100%; margin-bottom: 1.5rem; } 
+        }
+    </style>
+</head>
+<body>
+    <div class="astra-katalog-produk">
+        <nav class="navbar">
+            <a href="#" class="nav-brand">ASTRA SHELL</a>
+            <a href="#" class="nav-cart-link">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </a>
+        </nav>
+        <div class="page-layout">
+            <aside class="sidebar" id="sidebar-container"></aside>
+            <main class="main-content">
+                <div class="product-header">
+                    <h2 id="page-title">Semua Produk</h2>
+                    <div class="controls-container">
+                        <div class="sorting-controls">
+                            <label for="sort-select">Urutkan:</label>
+                            <select id="sort-select" onchange="updateProductView()">
+                                <option value="default">Paling Sesuai</option>
+                                <option value="price-asc">Harga: Termurah</option>
+                                <option value="price-desc">Harga: Termahal</option>
+                                <option value="name-asc">Nama: A-Z</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-grid" id="product-list-container"></div>
+            </main>
+        </div>
+        <div class="notification" id="notification">
+            <i class="fas fa-check-circle"></i>
+            <span id="notificationMessage"></span>
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, name: "Laptop Gaming Pro", category: "Laptop", brand: "AstraShell", description: "Chipset Intel i9, RTX 4090", price: 6000000, image: "https://p0.it-img.com/p/image/480x480/1/25/66/1256600.png", tags: ['gaming', 'bisnis'] },
+            { id: 5, name: "Laptop Kantor Slim", category: "Laptop", brand: "Intel", description: "Chipset Core i5, 16GB RAM", price: 8500000, image: "https://p-id.ipricegroup.com/uploaded_2596c641ae41226978734208a4a3505a.jpg", tags: ['bisnis', 'pelajar'] },
+            { id: 7, name: "Laptop AMD Kuat", category: "Laptop", brand: "AMD", description: "Chipset Ryzen 7, 16GB RAM", price: 7800000, image: "https://dlcdnwebimgs.asus.com/gain/d994a466-9430-423c-9759-4f27629a3a97/w1000/h732", tags: ['gaming', 'pelajar'] },
+            { id: 2, name: "Mouse Gaming RGB", category: "Aksesoris", brand: "Logitech", description: "Sensor Optik 16.000 DPI", price: 450000, image: "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//104/MTA-2631671/logitech_logitech-g102-prodigy-gaming-mouse_full02.jpg" },
+            { id: 3, name: "Keyboard Mekanikal", category: "Aksesoris", brand: "Logitech", description: "Blue Switch, Full RGB", price: 850000, image: "https://resource.logitechg.com/w_692,c_limit,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/gaming/en/products/g512/g512-gallery-1.png" },
+            { id: 8, name: "MSI RTX 3050 Ventus", category: "Aksesoris", brand: "MSI", description: "VGA 8GB GDDR6, Kencang", price: 3850000, image: "https://storage.googleapis.com/core-system/produks/8525/msi-geforce-rtx-3050-ventus-2x-8g-oc.png" },
+            { id: 9, name: "Asus RTX 4050 Dual", category: "Aksesoris", brand: "Asus", description: "VGA 6GB GDDR6, Efisien", price: 5100000, image: "https://www.asus.com/media/global/gallery/k8e3zdwl3zrdofru_setting_000_1_90_end_500.png" },
+            { id: 6, name: "Monitor 24 Inch IPS", category: "Monitor", brand: "Samsung", description: "Full HD, 75Hz, Bezel Tipis", price: 1800000, image: "https://images.samsung.com/is/image/samsung/p6pim/id/lf24t350fhexxed/gallery/id-fhd-monitor-with-border-less-design-lf24t350fhexxed-420392552?$650_519_PNG$" }
+        ];
+        const originalProducts = [...products];
+
+        function getCart() { return JSON.parse(localStorage.getItem('cartItems')) || []; }
+        function saveCart(cart) { localStorage.setItem('cartItems', JSON.stringify(cart)); updateCartIcon(); }
+        function updateCartIcon() { document.getElementById('cartCount').textContent = getCart().reduce((sum, item) => sum + item.quantity, 0); }
+        function formatPrice(price) { return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price); }
+        function showNotification(message) {
+            const notification = document.querySelector('.astra-katalog-produk .notification');
+            const notificationMessage = document.getElementById('notificationMessage');
+            if (notification && notificationMessage) {
+                notificationMessage.textContent = message;
+                notification.classList.add('show');
+                setTimeout(() => notification.classList.remove('show'), 3000);
+            }
+        }
+
+        function renderProducts(productsToRender) {
+            const container = document.getElementById('product-list-container');
+            if (!container) return;
+            container.innerHTML = '';
+            productsToRender.forEach(p => {
+                container.innerHTML += `
+                    <article class="product-card">
+                        <img src="${p.image}" alt="${p.name}">
+                        <div class="product-content">
+                            <h3 class="product-title">${p.name}</h3>
+                            <p class="product-description">${p.description}</p>
+                            <div class="product-price"><span class="final-price">${formatPrice(p.price)}</span></div>
+                            <div class="card-actions"><button class="cart-btn" onclick="addToCart(${p.id})"><i class="fas fa-shopping-cart"></i></button><button class="buy-btn" onclick="addToCart(${p.id})">BELI</button></div>
+                        </div>
+                    </article>`;
+            });
+        }
+        
+        function renderSidebar() {
+            const sidebarContainer = document.getElementById('sidebar-container');
+            if(!sidebarContainer) return;
+            const categories = [
+                { name: 'Semua Produk', action: `showAllProducts(this)` },
+                { name: 'Laptop Gaming', action: `filterByTag('gaming', this, 'Laptop Gaming')` },
+                { name: 'Laptop Pelajar', action: `filterByTag('pelajar', this, 'Laptop untuk Pelajar')` },
+                { name: 'Laptop Bisnis', action: `filterByTag('bisnis', this, 'Laptop untuk Bisnis')` },
+                { name: 'Harga Termahal', action: `sortByPrice('desc', this)` },
+                { name: 'Harga Termurah', action: `sortByPrice('asc', this)` }
+            ];
+
+            let categoryHTML = '<h3 class="sidebar-title">Kategori</h3><ul class="category-list">';
+            categories.forEach((category, index) => {
+                const isActive = index === 0 ? 'class="active"' : '';
+                categoryHTML += `<li class="category-item"><a href="#" ${isActive} onclick="${category.action}">${category.name}</a></li>`;
+            });
+            categoryHTML += '</ul>';
+            sidebarContainer.innerHTML = categoryHTML;
+        }
+
+        function resetControlsAndTitle(title, activeElement) {
+             document.getElementById('page-title').textContent = title;
+             document.querySelectorAll('.astra-katalog-produk .category-item a').forEach(link => link.classList.remove('active'));
+             if(activeElement) activeElement.classList.add('active');
+             document.getElementById('sort-select').value = 'default';
+        }
+
+        function showAllProducts(element) {
+            resetControlsAndTitle('Semua Produk', element);
+            renderProducts(originalProducts);
+        }
+        
+        function filterByTag(tag, element, title) {
+            resetControlsAndTitle(title, element);
+            const filteredProducts = originalProducts.filter(p => p.tags && p.tags.includes(tag));
+            renderProducts(filteredProducts);
+        }
+
+        function sortByPrice(direction, element) {
+            const title = direction === 'desc' ? 'Harga Termahal' : 'Harga Termurah';
+            resetControlsAndTitle(title, element);
+            const sortedProducts = [...originalProducts].sort((a, b) => direction === 'desc' ? b.price - a.price : a.price - b.price);
+            renderProducts(sortedProducts);
+        }
+
+        function updateProductView() {
+            document.querySelectorAll('.astra-katalog-produk .category-item a').forEach(link => link.classList.remove('active'));
+            document.getElementById('page-title').textContent = "Hasil Filter";
+            let productsToShow = [...originalProducts];
+            const sortBy = document.getElementById('sort-select').value;
+            switch (sortBy) {
+                case 'price-asc': productsToShow.sort((a, b) => a.price - b.price); break;
+                case 'price-desc': productsToShow.sort((a, b) => b.price - a.price); break;
+                case 'name-asc': productsToShow.sort((a, b) => a.name.localeCompare(b.name)); break;
+            }
+            renderProducts(productsToShow);
+        }
+        
+        function addToCart(productId) {
+            const productToAdd = products.find(p => p.id === productId);
+            if(!productToAdd) return;
+            let cart = getCart();
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) { existingItem.quantity++; } 
+            else { cart.push({ ...productToAdd, quantity: 1, selected: true }); }
+            saveCart(cart);
+            showNotification(`${productToAdd.name} berhasil ditambahkan!`);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartIcon();
+            renderSidebar();
+            showAllProducts(document.querySelector('.astra-katalog-produk .category-item a'));
+        });
+    </script>
+</body>
+</html>

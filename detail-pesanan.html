@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Pesanan - ASTRASHELL</title>
+    <link rel="icon" href="icon/astra icon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #7C3AED;
+            --border-color: #e2e8f0;
+            --background-color: #f8fafc;
+            --text-color-primary: #1e293b;
+            --text-color-secondary: #64748b;
+            --success-color: #22c55e;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            color: var(--text-color-primary);
+        }
+
+        .page-container {
+            max-width: 800px;
+            margin: 1.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .back-btn {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color-primary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .back-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .page-title span {
+            color: var(--text-color-secondary);
+            font-weight: 500;
+        }
+
+        .content-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 1.5rem;
+        }
+        .content-card h3 {
+            margin-top: 0;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Tracking Pengiriman */
+        .tracking-timeline {
+            list-style: none;
+            padding: 0;
+        }
+        .tracking-item {
+            display: flex;
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+        .tracking-item:last-child { padding-bottom: 0; }
+        .tracking-item .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--border-color);
+            color: var(--text-color-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+        .tracking-item.completed .icon {
+            background-color: var(--success-color);
+            color: white;
+        }
+        .tracking-item::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            bottom: 0;
+            width: 2px;
+            background-color: var(--border-color);
+            z-index: 1;
+        }
+        .tracking-item.completed::before { background-color: var(--success-color); }
+        .tracking-item:last-child::before { display: none; }
+        .tracking-info {
+            padding-left: 1rem;
+        }
+        .tracking-info p { margin: 0; font-weight: 600; }
+        .tracking-info time { font-size: 0.9rem; color: var(--text-color-secondary); }
+
+        /* Detail Produk */
+        .product-item {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .product-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .product-item:first-of-type { padding-top: 0; }
+
+        .product-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .product-info { flex: 1; }
+        .product-info p { margin: 0 0 0.25rem 0; font-weight: 600; }
+        .product-info span { font-size: 0.9rem; color: var(--text-color-secondary); }
+        .product-price { font-weight: 600; text-align: right; }
+
+        /* Ringkasan Pembayaran */
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+        .summary-line.total {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        .summary-line.total span:last-child {
+            color: var(--primary-color);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <div class="page-header">
+            <a href="profil.html#riwayat-pesanan" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+            <h1 class="page-title">Detail Pesanan <span>#INV15072025</span></h1>
+        </div>
+
+        <div class="content-card">
+            <h3>Lacak Pengiriman</h3>
+            <ul class="tracking-timeline">
+                <li class="tracking-item completed">
+                    <div class="icon"><i class="fas fa-check"></i></div>
+                    <div class="tracking-info">
+                        <p>Pesanan Selesai</p>
+                        <time>17 Juli 2025, 14:30</time>
+                    </div>
+                </li>
+                 <li class="tracking-item completed">
+                    <div class="icon"><i class="fas fa-truck"></i></div>
+                    <div class="tracking-info">
+                        <p>Pesanan Dikirim</p>
+                        <time>16 Juli 2025, 11:00</time>
+                    </div>
+                </li>
+                <li class="tracking-item completed">
+                    <div class="icon"><i class="fas fa-box"></i></div>
+                    <div class="tracking-info">
+                        <p>Pesanan Diproses</p>
+                        <time>15 Juli 2025, 10:05</time>
+                    </div>
+                </li>
+                <li class="tracking-item completed">
+                    <div class="icon"><i class="fas fa-receipt"></i></div>
+                    <div class="tracking-info">
+                        <p>Pesanan Dibuat</p>
+                        <time>15 Juli 2025, 10:00</time>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="content-card">
+            <h3>Rincian Produk</h3>
+            <div class="product-item">
+                <img src="https://placehold.co/80x80/ef4444/white?text=Mouse" alt="Produk">
+                <div class="product-info">
+                    <p>Logitech G Pro X</p>
+                    <span>1 Barang</span>
+                </div>
+                <div class="product-price">Rp 2.100.000</div>
+            </div>
+             <div class="product-item">
+                <img src="https://placehold.co/80x80/6366f1/white?text=Razer+Pad" alt="Produk">
+                <div class="product-info">
+                    <p>Razer Gigantus V2</p>
+                    <span>1 Barang</span>
+                </div>
+                <div class="product-price">Rp 450.000</div>
+            </div>
+        </div>
+        
+        <div class="content-card">
+            <h3>Rincian Pembayaran</h3>
+            <div class="summary-line">
+                <span>Subtotal Produk</span>
+                <span>Rp 2.550.000</span>
+            </div>
+             <div class="summary-line">
+                <span>Biaya Pengiriman</span>
+                <span>Rp 15.000</span>
+            </div>
+             <div class="summary-line">
+                <span>Biaya Layanan</span>
+                <span>Rp 2.000</span>
+            </div>
+            <div class="summary-line total">
+                <span>Total</span>
+                <span>Rp 2.567.000</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
